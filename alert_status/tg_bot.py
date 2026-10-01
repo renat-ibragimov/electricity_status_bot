@@ -9,8 +9,12 @@ class TGBot:
         self.send_msg()
 
     def send_msg(self):
-        requests.post(
-            f"https://api.telegram.org/bot{config.PRIMORSKII_COURT_BOT_TOKEN}/"
-            f"sendMessage",
-            data={"chat_id": config.PRIMORSKII_COURT_CHANNEL_ID,
-                  "text": self.message})
+        chat_ids = [
+            config.PRIMORSKII_COURT_CHANNEL_ID,
+            config.HADJIBEYSKII_COURT_CHANNEL_ID,
+        ]
+        for chat_id in chat_ids:
+            requests.post(
+                f"https://api.telegram.org/bot{config.PRIMORSKII_COURT_BOT_TOKEN}/sendMessage",
+                data={"chat_id": chat_id, "text": self.message}
+            )

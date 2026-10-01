@@ -9,7 +9,8 @@ class DBWorker:
                                      password=config.DB_PASS,
                                      host=config.DB_HOST,
                                      port=config.DB_LOCAL_PORT,
-                                     database=config.DB_NAME)
+                                     database=config.DB_NAME,
+				     options="-c timezone=Europe/Kiev")
         self.conn.autocommit = True
         self.cursor = self.conn.cursor()
         return self
@@ -22,8 +23,8 @@ class DBWorker:
         return results[0]
 
     def insert_status(self, status):
-        self.cursor.execute(f"INSERT INTO alert_status (status) "
-                            f"VALUES ('{status}');")
+        self.cursor.execute("INSERT INTO alert_status (status) "
+                            "VALUES (%s);", (status,))
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.conn.close()
